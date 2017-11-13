@@ -6,8 +6,10 @@ import org.check.InputChecker;
 import org.check.InputException;
 import org.check.RuleChecker;
 import org.check.RuleException;
-import org.logger.Logger;
+import org.logger.ConsoleLogger;
+import org.logger.FileLogger;
 import org.logger.LoggerFactory;
+import org.logger.WritingException;
 
 public class Interface {
 	
@@ -15,13 +17,13 @@ public class Interface {
 	private FileLogger _fileLogger;
 	private Scanner _scan;
 	
-	public Interface () {
+	public Interface () throws WritingException {
 		_consoleLogger = LoggerFactory.getConsoleLogger();
 		_fileLogger = LoggerFactory.getFileLogger();
 		_scan = new Scanner (System.in);
 	}
 	
-	public String askUser (String message, InputChecker checker) {
+	public String askUser (String message, InputChecker checker) throws WritingException {
 		while (true) {
 			try {
 				_consoleLogger.info ("OUTPUT", message);
@@ -37,12 +39,12 @@ public class Interface {
 		}
 	}
 	
-	public void informUser (String message) {
+	public void informUser (String message) throws WritingException {
 		_consoleLogger.info("OUTPUT", message);
 		_fileLogger.info ("OUTPUT", message);
 	}
 	
-	public void checkUserPossibilities (RuleChecker checker) {
+	public void checkUserPossibilities (RuleChecker checker) throws WritingException {
 		try {
 			checker.validate();
 		}catch (RuleException re) {
