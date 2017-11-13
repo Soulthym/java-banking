@@ -6,7 +6,9 @@ public class LitteralInputChecker implements InputChecker {
 	public void validate(String userInput) throws InputException {
 		// TODO Auto-generated method stub
 		for (char c : userInput.toCharArray()) {
-			//attendre internet
+			if (Character.isDigit(c)) {
+				throw new InputException("This is not a string but a number.");
+			}
 		}
 	}
 

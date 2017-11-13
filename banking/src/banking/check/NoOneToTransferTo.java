@@ -17,7 +17,7 @@ public class NoOneToTransferTo implements RuleChecker {
 	public void validate() throws RuleException {
 		// TODO Auto-generated method stub
 		if (_accounts.size() < 2) {
-			throw new RuleException("There is no one in our data base to allow you to transfert money");
+			throw new RuleException("There is no one in our data base to allow you to transfer money");
 		}
 	}
 

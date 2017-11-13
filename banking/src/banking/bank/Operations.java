@@ -8,8 +8,10 @@ import org.check.InputException;
 import org.check.IntegerInputChecker;
 import org.check.LoanTauxInputChecker;
 import org.check.LoanTimeInputChecker;
+import org.check.NoOneInDataBase;
 import org.check.NoOneToTransferTo;
 import org.check.NumberOfLoansRuleChecker;
+import org.check.WrongAgeInputChecker;
 import org.check.WrongNameInputChecker;
 
 public class Operations {
@@ -30,7 +32,7 @@ public class Operations {
 	}
 	
 	public Account connectToYourAccount (String name) throws InputException {
-		//TODO si le compte n existe pas
+		_interface.checkUserPossibilities(new NoOneInDataBase(_accounts));
 		Account userAccount = _accounts.get(0);
 		for (Account account : _accounts) {
 			if (name.equals(account.getUserName())){
@@ -71,11 +73,11 @@ public class Operations {
 			}
 			case 2 : {
 				int amount = Integer.parseInt(_interface.askUser("What amount do you need?", new IntegerInputChecker(0, Integer.MAX_VALUE)));
-				double taux = Double.parseDouble(_interface.askUser("Which taux would you like?", new LoanTauxInputChecker()));
+				double taux = Double.parseDouble(_interface.askUser("Which rate would you like?", new LoanTauxInputChecker()));
 				int time = Integer.parseInt(_interface.askUser("On how many years would you like to refund?", new LoanTimeInputChecker(account.getUserAge())));
 				_interface.checkUserPossibilities(new NumberOfLoansRuleChecker(account.getLoans().size()));
-				account.takeANewLoan(taux, amount, time);
-				_interface.informUser("Your list of loans is now :\n" + account.getLoans());
+				double annuites = account.takeANewLoan(taux, amount, time);
+				_interface.informUser("Your list of loans is now :\n" + account.getLoans() + "and you will have to refund " + annuites +"€ each year.");
 			}
 		}
 	}
@@ -89,7 +91,7 @@ public class Operations {
 			_interface.informUser(Integer.toString(_accounts.get(i).getUserAge()));
 		}
 		String nameToTransfer = _interface.askUser("Who would you like to transfer money to?", new WrongNameInputChecker(_accounts));
-		int ageToTransfer = Integer.parseInt(_interface.askUser("What is the age of the reciever", new IntegerInputChecker(0, 150)));
+		int ageToTransfer = Integer.parseInt(_interface.askUser("What is the age of the reciever", new WrongAgeInputChecker(_accounts)));
 		int moneyToTransfer = Integer.parseInt(_interface.askUser("How much money would you like to transfer?", new IntegerInputChecker(0, account.getTotal())));
 		account.withdrawMoney(moneyToTransfer);
 		for(int i = 0; i < _accounts.size(); i++) {
