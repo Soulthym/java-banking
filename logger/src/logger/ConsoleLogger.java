@@ -1,10 +1,20 @@
-package logger;
+package _logger;
 
 public class ConsoleLogger implements Logger {
-	public void info (String message) {
-		System.out.println("Info : " + message);
+
+	@Override
+	public void info(String category, String message) {
+		//Si la categorie du logger est "output" alors on écrit dans la console
+		if (category == "OUTPUT") {
+			System.out.println(message);
+		}
 	}
-	public void error (String message) {
-		System.out.println("Error : " + message);
+
+	@Override
+	public void error(String category, String message) {
+		//Cf methode info
+		if (category == "OUTPUT") {
+			System.out.println("Error : " + message);
+		}
 	}
 }
