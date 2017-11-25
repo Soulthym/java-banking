@@ -1,4 +1,4 @@
-package _logger;
+package logger;
 
 public class Launcher {
 	public static void main(String[] args) throws WritingException {

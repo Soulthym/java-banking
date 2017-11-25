@@ -1,4 +1,4 @@
-package _logger;
+package logger;
 
 public class WritingException extends Exception {
 
@@ -9,5 +9,5 @@ public class WritingException extends Exception {
 	public String getMessage() {
 		return this.message;
 	}
-	
+
 }

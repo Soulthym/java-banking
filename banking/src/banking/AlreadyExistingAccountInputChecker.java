@@ -1,16 +1,16 @@
-package org.check;
+package banking;
 
 import java.util.List;
 
-import org.bank.Account;
-import org.bank.User;
+//import banking.Account;
+//import banking.User;
 
 public class AlreadyExistingAccountInputChecker implements RuleChecker {
 
 	private List <Account> _accounts;
 	private String _userName;
 	private int _userAge;
-	
+
 	public AlreadyExistingAccountInputChecker(List <Account> accounts, String name, int age) {
 		_accounts = accounts;
 		_userName = name;

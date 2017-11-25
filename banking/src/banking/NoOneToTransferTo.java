@@ -1,18 +1,18 @@
-package org.check;
+package banking;
 
 import java.util.List;
 
-import org.bank.Account;
+// import banking.Account;
 
 public class NoOneToTransferTo implements RuleChecker {
 
 	private List <Account> _accounts;
-	
+
 	public NoOneToTransferTo(List <Account> accounts) {
 		// TODO Auto-generated constructor stub
 		_accounts = accounts;
 	}
-	
+
 	@Override
 	public void validate() throws RuleException {
 		// TODO Auto-generated method stub

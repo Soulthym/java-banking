@@ -1,7 +1,7 @@
-package org.check;
+package banking;
 
 public class LoanTauxInputChecker implements InputChecker{
-	
+
 	@Override
 	public void validate(String userInput) throws InputException {
 		// TODO Auto-generated method stub
@@ -14,6 +14,6 @@ public class LoanTauxInputChecker implements InputChecker{
 			throw new InputException("Please write a number for you taux.");
 		}
 	}
-	
-	
+
+
 }

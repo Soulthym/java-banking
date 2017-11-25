@@ -1,11 +1,11 @@
-package org.check;
+package banking;
 
 import java.util.List;
 
-import org.bank.Account;
+// import banking.Account;
 
 public class WrongAgeInputChecker implements InputChecker {
-	
+
 	private List <Account> _accounts;
 	private String _name;
 

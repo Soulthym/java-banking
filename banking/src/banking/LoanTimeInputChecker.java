@@ -1,10 +1,10 @@
-package org.check;
+package banking;
 
 public class LoanTimeInputChecker implements InputChecker {
 
 	private int _userAge;
-	
-	
+
+
 	public LoanTimeInputChecker (int userAge) {
 		_userAge = userAge;
 	}

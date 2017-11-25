@@ -1,4 +1,4 @@
-package _logger;
+package logger;
 
 public class ConsoleLogger implements Logger {
 

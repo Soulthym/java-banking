@@ -1,4 +1,4 @@
-package org.check;
+package banking;
 
 public class QuitProgramInputException implements InputChecker {
 
