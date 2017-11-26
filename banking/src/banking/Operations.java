@@ -9,19 +9,20 @@ import banking.LoanTauxInputChecker;
 import banking.LoanTimeInputChecker;
 import banking.WrongAgeInputChecker;
 import banking.WrongNameInputChecker;
-
+import logger.FileLogger;
+import logger.LoggerFactory;
 import logger.WritingException;
 
 public class Operations {
 
 	private List <Account> _accounts;
 	private Interface _interface;
-	//private FileLogger _fileLogger;
+	private FileLogger _fileLogger;
 
 	public Operations () throws WritingException {
 		_accounts = new ArrayList <Account> ();
 		_interface = new Interface();
-		//_fileLogger = LoggerFactory.getFileLogger();
+		_fileLogger = LoggerFactory.getFileLogger();
 	}
 
 	public List<Account> initAccounts () {
@@ -37,7 +38,7 @@ public class Operations {
 	public Account createNewAccount (String name, int age) throws InputException, WritingException {
 		Account userAccount = new Account (name, age);
 		_accounts.add(userAccount);
-		//_fileLogger.info ("PROGRAM", "The program is now used by " + userAccount.getUserName());
+		_fileLogger.info ("PROGRAM", "The program is now used by " + userAccount.getUserName());
 		return userAccount;
 	}
 
@@ -48,7 +49,7 @@ public class Operations {
 				userAccount = account;
 			}
 		}
-		//_fileLogger.info ("PROGRAM", "The program is now used by " + userAccount.getUserName());
+		_fileLogger.info ("PROGRAM", "The program is now used by " + userAccount.getUserName());
 		return userAccount;
 	}
 
@@ -60,14 +61,14 @@ public class Operations {
 		int moneyToAdd = Integer.parseInt(_interface.askUser("How much would you like to deposit?", new IntegerInputChecker(0, Integer.MAX_VALUE)));
 		account.addMoney(moneyToAdd);
 		_interface.informUser("Your funds are now " + account.getTotal() + "�.");
-		//_fileLogger.info ("PROGRAM", "Account : " + account.getUserName() + " , age : "+ account.getUserAge() + " has been credited of" + account.getTotal() + "�.");
+		_fileLogger.info ("PROGRAM", "Account : " + account.getUserName() + " , age : "+ account.getUserAge() + " has been credited of" + account.getTotal() + "�.");
 	}
 
 	public void withdrawMoney (Account account) throws InputException, WritingException {
 		int moneyToWithdraw = Integer.parseInt(_interface.askUser("How much would you like to withdraw?", new IntegerInputChecker(0, account.getTotal(), "You don't have enough money, you only have " + account.getTotal() + "�.")));
 		account.withdrawMoney(moneyToWithdraw);
 		_interface.informUser("Your funds are now " + account.getTotal() + "�.");
-		//_fileLogger.info ("PROGRAM", "Account : " + account.getUserName() + " , age : "+ account.getUserAge() + " has been credited of" + account.getTotal() + "�.");
+		_fileLogger.info ("PROGRAM", "Account : " + account.getUserName() + " , age : "+ account.getUserAge() + " has been credited of" + account.getTotal() + "�.");
 
 	}
 
@@ -89,6 +90,7 @@ public class Operations {
 					double taux = Double.parseDouble(_interface.askUser("Which rate would you like?", new LoanTauxInputChecker()));
 					int time = Integer.parseInt(_interface.askUser("On how many years would you like to refund?", new LoanTimeInputChecker(account.getUserAge())));
 					account.takeANewLoan(taux, amount, time);
+					_fileLogger.info ("PROGRAM", "Account : " + account.getUserName() + " , age : "+ account.getUserAge() + " has a new loan of " + amount + "�, with a rate of " + taux + "and a time of : " + time);
 					_interface.informUser("Your list of loans is now :\n" );
 				} else {
 					_interface.informUser("You can't have another loan, here is your list of loans :");
@@ -98,7 +100,6 @@ public class Operations {
 				_interface.informUser("Rate : " + Double.toString(account.getLoans().get(i).getTaux()));
 				_interface.informUser("Time : " + Integer.toString(account.getLoans().get(i).getTime()));
 				}
-				//_fileLogger.info ("PROGRAM", "Account : " + account.getUserName() + " , age : "+ account.getUserAge() + " has a new loan of " + amount + "�, with a rate of " + taux + "and a time of : " + time);
 			}
 		}
 	}
@@ -117,7 +118,7 @@ public class Operations {
 			if (nameToTransfer.equals(_accounts.get(i).getUserName()) && ageToTransfer==_accounts.get(i).getUserAge()) {
 				Account accountToTransfer = _accounts.get(i);
 				accountToTransfer.addMoney(moneyToTransfer);
-				//_fileLogger.info ("PROGRAM", moneyToTransfer + "� has been transfered from " + account.getUserName() + ", " + account.getUserAge() + " to " + accountToTransfer.getUserName() + ", " + accountToTransfer.getUserAge());
+				_fileLogger.info ("PROGRAM", moneyToTransfer + "� has been transfered from " + account.getUserName() + ", " + account.getUserAge() + " to " + accountToTransfer.getUserName() + ", " + accountToTransfer.getUserAge());
 			}
 		}
 	}

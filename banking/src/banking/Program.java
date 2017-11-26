@@ -6,6 +6,8 @@ import java.util.List;
 import banking.InputException;
 import banking.IntegerInputChecker;
 import banking.LitteralInputChecker;
+import logger.ConsoleLogger;
+import logger.LoggerFactory;
 import logger.WritingException;
 
 public class Program {
@@ -14,12 +16,14 @@ public class Program {
 	private Operations _operations;
 	private Account _userAccount;
 	private List <Account> _accounts;
+	private ConsoleLogger _consoleLogger;
 
 
 	public Program () throws WritingException {
 		_interface = new Interface();
 		_operations = new Operations();
 		_accounts = new ArrayList <Account> ();
+		_consoleLogger = LoggerFactory.getConsoleLogger();
 	}
 
 	public Account connexion () throws InputException, WritingException {
@@ -36,7 +40,7 @@ public class Program {
 					age = Integer.parseInt(_interface.askUser("Please enter your age.", new IntegerInputChecker(0, 150)));
 					for (Account account : _accounts) {
 						if (name.equals(account.getUserName()) && age == account.getUserAge()){
-							System.out.println("There is already a member with this name and age in our data base.");
+							_consoleLogger.error("OUTPUT", "There is already a member with this name and age in our data base.");
 							ok = false;
 						}
 					}
@@ -50,7 +54,7 @@ public class Program {
 					age = Integer.parseInt(_interface.askUser("Please enter your age.", new IntegerInputChecker(0, 150)));
 					for (Account account : _accounts) {
 						if (name.equals(account.getUserName()) && age == account.getUserAge()){
-							System.out.println("There is no one in our data base with this name and age.");
+							_consoleLogger.error("OUTPUT","There is no one in our data base with this name and age.");
 							ok = true;
 						}
 					}
