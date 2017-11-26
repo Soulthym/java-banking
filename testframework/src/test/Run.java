@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import logger.Logger;
 import logger.LoggerFactory;
-import 
+import logger.WritingException;
 
 public class Run {
     private static Logger logger;
@@ -14,7 +14,7 @@ public class Run {
     private static int nbFailedTests;
 
     public static void testClass(String className) {
-        logger.info("PROGRAM", "testing class " + className);
+        try { logger.info("PROGRAM", "testing class " + className); } catch (WritingException e){ System.out.println("Couldn't use logger.info");}
         try {
             Class<?> clazz = Class.forName(className);
             try {
@@ -27,31 +27,28 @@ public class Run {
                     }
                 }
             } catch (InstantiationException | IllegalAccessException e) {
-                logger.error("OUTPUT", "could not instantiate " + clazz.getName());
+              try {logger.error("OUTPUT", "Couldn't instantiate " + clazz.getName());} catch (WritingException ee){ System.out.println(ee.getMessage());}
             }
         } catch (ClassNotFoundException e) {
-            logger.error("OUTPUT", "class " + className + " not found");
+            try {logger.error("OUTPUT", "class " + className + " not found");} catch (WritingException ee){ System.out.println(ee.getMessage());}
         }
     }
 
     public static void testMethod(Class<?> clazz, Object instance, Method method) {
-        logger.info("PROGRAM", "running " + clazz.getName() + "." + method.getName());
-
+      try {logger.info("PROGRAM", "running " + clazz.getName() + "." + method.getName());} catch (WritingException e){ System.out.println(e.getMessage());}
         nbTests++;
-
         boolean success = true;
         long testDurationMillis = 0;
-
         try {
             long startTimeMillis = System.currentTimeMillis();
 
             try {
                 method.invoke(instance);
             } catch (IllegalAccessException e) {
-                logger.error("OUTPUT", "could not invoke " + clazz.getName() + "." + method.getName());
+
+                try {logger.error("OUTPUT", "could not invoke " + clazz.getName() + "." + method.getName());} catch (WritingException ee){System.out.println(ee.getMessage());}
                 success = false;
             }
-
             testDurationMillis = System.currentTimeMillis() - startTimeMillis;
         } catch (InvocationTargetException e) {
             success = false;
@@ -64,13 +61,12 @@ public class Run {
             reportMsg = String.format("%s.%s: KO (%d ms)", clazz.getName(), method.getName(), testDurationMillis);
             nbFailedTests++;
         }
-        logger.info("OUTPUT", reportMsg);
+        try {logger.info("OUTPUT", reportMsg);} catch (WritingException ee){System.out.println(ee.getMessage());}
     }
 
     public static void main(String[] args) {
-        logger = LoggerFactory.getFileLogger();
-        logger.info("PROGRAM", "Starting tests");
-
+        try {logger = LoggerFactory.getFileLogger();} catch (WritingException ee){System.out.println(ee.getMessage());}
+        try {logger.info("PROGRAM", "Starting tests");} catch (WritingException ee){System.out.println(ee.getMessage());}
         long startTimeMillis = System.currentTimeMillis();
         for (String className: args) {
             testClass(className);
@@ -80,10 +76,9 @@ public class Run {
         int nbPassedTests = nbTests - nbFailedTests;
         float passedRate = (float)nbPassedTests / nbTests * 100;
         float failedRate = (float)nbFailedTests / nbTests * 100;
-
-        logger.info("OUTPUT", String.format("total  : %d", nbTests));
-        logger.info("OUTPUT", String.format("passed : %d (%3.0f%%)", nbPassedTests, passedRate));
-        logger.info("OUTPUT", String.format("failed : %d (%3.0f%%)", nbFailedTests, failedRate));
-        logger.info("OUTPUT", String.format("time   : %d ms", totalTimeMillis));
+        try {logger.info("OUTPUT", String.format("total  : %d", nbTests));} catch (WritingException ee){System.out.println(ee.getMessage());}
+        try {logger.info("OUTPUT", String.format("passed : %d (%3.0f%%)", nbPassedTests, passedRate));} catch (WritingException ee){System.out.println(ee.getMessage());}
+        try {logger.info("OUTPUT", String.format("failed : %d (%3.0f%%)", nbFailedTests, failedRate));} catch (WritingException ee){System.out.println(ee.getMessage());}
+        try {logger.info("OUTPUT", String.format("time   : %d ms", totalTimeMillis));} catch (WritingException ee){System.out.println(ee.getMessage());}
     }
 }
