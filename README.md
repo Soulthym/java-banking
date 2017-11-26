@@ -9,15 +9,22 @@
 
 Pour lancer le programme, l’exécution de ces deux scripts (**dans l'ordre**) est requis :
 > - Le script <i class="icon-file"></i>**Compile.sh**, chargé de créer l'arborescence et de compiler les fichiers *.java.
-```sh
-$ ./compile.sh
-$ ./test.sh
-```
-
-> - Le script <i class="icon-file"></i>**Launch_banking.sh**, qui appellera la class *main* et fera tourner le programme.
+> - Le script <i class="icon-file"></i>**Launch_banking.sh**, qui appellera la class *banking.Program* et fera tourner le programme.
 ```sh
 $ ./compile.sh
 $ ./launch_banking.sh
+```
+
+----------
+#### **Lancement du framework de test**
+-------------
+
+Pour lancer le framework de test, l’exécution de ces deux scripts (**dans l'ordre**) est requis :
+> - Le script <i class="icon-file"></i>**Compile.sh**, chargé de créer l'arborescence et de compiler les fichiers *.java.
+> - Le script <i class="icon-file"></i>**test.sh**, qui appellera la class *test.Run* et fera tourner le framework de test.
+```sh
+$ ./compile.sh
+$ ./test.sh
 ```
 
 ----------
@@ -28,6 +35,7 @@ La classe main de notre programme va créer les éléments nécessaires à l'ini
 Le point d'entrée de l'application banking est ```banking.Program```.
 
 Le point d'entrée du framework de test est ```test.Run```.
+
 __exemple__ :
 ```sh
 $ java -cp testframework/bin:banking/bin:logger/bin test.Run test.UserTest
