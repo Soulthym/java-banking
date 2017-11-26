@@ -3,15 +3,10 @@ package banking;
 import java.util.ArrayList;
 import java.util.List;
 
-import banking.AlreadyExistingAccountInputChecker;
 import banking.InputException;
 import banking.IntegerInputChecker;
 import banking.LoanTauxInputChecker;
 import banking.LoanTimeInputChecker;
-import banking.NoOneInDataBase;
-import banking.NoOneToTransferTo;
-import banking.NumberOfLoansRuleChecker;
-import banking.RuleException;
 import banking.WrongAgeInputChecker;
 import banking.WrongNameInputChecker;
 
@@ -29,17 +24,17 @@ public class Operations {
 		//_fileLogger = LoggerFactory.getFileLogger();
 	}
 
-	public void initAccounts () {
+	public List<Account> initAccounts () {
 		Account account1 = new Account ("Chloe", 35);
 		Account account2 = new Account ("Benjamin", 52);
 		Account account3 = new Account ("Emilie", 77);
 		_accounts.add(account1);
 		_accounts.add(account2);
 		_accounts.add(account3);
+		return _accounts;
 	}
 
 	public Account createNewAccount (String name, int age) throws InputException, WritingException {
-		_interface.checkUserPossibilities(new AlreadyExistingAccountInputChecker (_accounts, name, age));
 		Account userAccount = new Account (name, age);
 		_accounts.add(userAccount);
 		//_fileLogger.info ("PROGRAM", "The program is now used by " + userAccount.getUserName());
@@ -47,7 +42,6 @@ public class Operations {
 	}
 
 	public Account connectToYourAccount (String name) throws InputException, WritingException {
-		_interface.checkUserPossibilities(new NoOneInDataBase(_accounts));
 		Account userAccount = _accounts.get(0);
 		for (Account account : _accounts) {
 			if (name.equals(account.getUserName())){
@@ -77,11 +71,11 @@ public class Operations {
 
 	}
 
-	public void manageLoans (Account account) throws RuleException, InputException, WritingException {
+	public void manageLoans (Account account) throws InputException, WritingException {
 		int userChoice = Integer.parseInt(_interface.askUser("(Fill in with the option's number)\n1) See your loans\n2) Take a new loan", new IntegerInputChecker(1, 2)));
 		switch (userChoice) {
 			case 1 : {
-				_interface.informUser("Here is your list of loans :\n");
+				_interface.informUser("Here is your list of loans :");
 				for(int i = 0; i < account.getLoans().size(); i++) {
 					_interface.informUser("Amount : " + Integer.toString(account.getLoans().get(i).getAmount()));
 					_interface.informUser("Rate : " + Double.toString(account.getLoans().get(i).getTaux()));
@@ -90,26 +84,26 @@ public class Operations {
 				}
 			}
 			case 2 : {
-				_interface.checkUserPossibilities(new NumberOfLoansRuleChecker(account.getLoans().size()));
-				int amount = Integer.parseInt(_interface.askUser("What amount do you need?", new IntegerInputChecker(0, Integer.MAX_VALUE)));
-				double taux = Double.parseDouble(_interface.askUser("Which rate would you like?", new LoanTauxInputChecker()));
-				int time = Integer.parseInt(_interface.askUser("On how many years would you like to refund?", new LoanTimeInputChecker(account.getUserAge())));
-				double annuites = account.takeANewLoan(taux, amount, time);
-				_interface.informUser("Your list of loans is now :\n" );
-				for(int i = 0; i < account.getLoans().size(); i++) {
-					_interface.informUser("Amount" + Integer.toString(account.getLoans().get(i).getAmount()));
-					_interface.informUser("Rate : " + Double.toString(account.getLoans().get(i).getTaux()));
-					_interface.informUser("Time : " + Integer.toString(account.getLoans().get(i).getTime()));
+				if (account.getLoans().size() < 2) {
+					int amount = Integer.parseInt(_interface.askUser("What amount do you need?", new IntegerInputChecker(0, Integer.MAX_VALUE)));
+					double taux = Double.parseDouble(_interface.askUser("Which rate would you like?", new LoanTauxInputChecker()));
+					int time = Integer.parseInt(_interface.askUser("On how many years would you like to refund?", new LoanTimeInputChecker(account.getUserAge())));
+					account.takeANewLoan(taux, amount, time);
+					_interface.informUser("Your list of loans is now :\n" );
+				} else {
+					_interface.informUser("You can't have another loan, here is your list of loans :");
 				}
-				_interface.informUser("and you will have to refund " + annuites +"� each year.");
+				for(int i = 0; i < account.getLoans().size(); i++) {
+				_interface.informUser("Amount : " + Integer.toString(account.getLoans().get(i).getAmount()));
+				_interface.informUser("Rate : " + Double.toString(account.getLoans().get(i).getTaux()));
+				_interface.informUser("Time : " + Integer.toString(account.getLoans().get(i).getTime()));
+				}
 				//_fileLogger.info ("PROGRAM", "Account : " + account.getUserName() + " , age : "+ account.getUserAge() + " has a new loan of " + amount + "�, with a rate of " + taux + "and a time of : " + time);
 			}
 		}
 	}
 
-	//throws InputException & RuleException ?
-	public void transferMoney (Account account) throws RuleException, InputException, WritingException {
-		_interface.checkUserPossibilities(new NoOneToTransferTo(_accounts));
+	public void transferMoney (Account account) throws InputException, WritingException {
 		_interface.informUser("Here is the list of our members :\n");
 		for(int i = 0; i < _accounts.size(); i++) {
 			_interface.informUser(_accounts.get(i).getUserName());

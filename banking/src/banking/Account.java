@@ -45,10 +45,9 @@ public class Account {
 		_total -= moneyToWithdraw;
 	}
 
-	public double takeANewLoan (double taux, int amount, int time) {
+	public void takeANewLoan (double taux, int amount, int time) {
 		Loan loan = new Loan (taux, amount, time);
 		_loans.add(loan);
-		return loan.calculateAnnuites();
 	}
 
 }

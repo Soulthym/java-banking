@@ -4,8 +4,6 @@ import java.util.Scanner;
 
 import banking.InputChecker;
 import banking.InputException;
-import banking.RuleChecker;
-import banking.RuleException;
 
 import logger.WritingException;
 
@@ -46,14 +44,4 @@ public class Interface {
 
 	}
 
-	public void checkUserPossibilities (RuleChecker checker) throws WritingException {
-		try {
-			checker.validate();
-		}catch (RuleException re) {
-			//_consoleLogger.error("OUTPUT", re.getMessage());
-			//_fileLogger.error ("OUTPUT", re.getMessage());
-			System.out.println(re.getMessage());
-
-		}
-	}
 }

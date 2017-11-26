@@ -23,10 +23,4 @@ public class Loan {
 	public int getTime() {
 		return _time;
 	}
-
-	public double calculateAnnuites () {
-		double annuites;
-		annuites = (_amount*Math.pow((1+_taux),_time)) * (_taux/(-1+(Math.pow((1+_taux),_time)))) * _time;
- 		return annuites;
-	}
 }
