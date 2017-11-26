@@ -5,7 +5,7 @@ import banking.User;
 import banking.InputException;
 import banking.Account;
 
-public class TestUser {
+public class UserTest {
     public void testDeposit() throws FailedTestException {
         Account Acc = new Account("Test", 18);
         try {Acc.addMoney(100);} catch (InputException e) {throw new FailedTestException();}
