@@ -35,9 +35,9 @@ $ java -cp testframework/bin:banking/bin:logger/bin test.Run test.UserTest
 
 ----------
 #### **Les problèmes rencontrés et leurs solutions**
-Le développent sous différents IDE entraine une gestion différente des packages. Il a fallu s'y reprendre à plusieurs reprises pour configurer le projet correctement et selon le "plan" donné.
 ----------
 ##### **Logger**
 Nous avons décidés de ne pas suivre à la lettre le modèle donné lors des TP et dans l'énoncé du projet. En effet, il n'y a pas de logger debug et l'organisation des différentes classes est plus simple à nos yeux. Banking commence par créer deux objets : FIleLogger et ConsoleLogger, et se contente simplement de les appeler à chaque fois qu'il en a besoin.
 ##### **Banking**
 ##### **Tests**
+Le développent sous différents IDE entraine une gestion différente des packages. Il a fallu s'y reprendre à plusieurs reprises pour configurer le projet correctement et selon le "plan" donné, combiner les parties et rendre le tout fonctionnel. Des problèmes dus au manque de communication dans l'équipe très probablement.
